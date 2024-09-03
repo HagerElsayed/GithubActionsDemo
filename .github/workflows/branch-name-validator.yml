@@ -7,18 +7,23 @@ on:
 
 jobs:
   validate-branch-name:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    runs-on: ubuntu-latest
 
-    - name: Get branch name
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get branch name
         id: get_branch
         run: |
+          echo "GITHUB_REF: $GITHUB_REF"
           if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
             BRANCH_NAME=${GITHUB_HEAD_REF}
           else
             BRANCH_NAME=${GITHUB_REF#refs/heads/}
           fi
-   - name: Validate Branch Name
-     run: ./.github/scripts/validate-branch-name.sh ${{ steps.get_branch.outputs.branch }}
+          echo "Branch name: $BRANCH_NAME"
+          echo "##[set-output name=branch;]$BRANCH_NAME"
+
+      - name: Validate Branch Name
+        run: ./.github/scripts/validate-branch-name.sh ${{ steps.get_branch.outputs.branch }}
