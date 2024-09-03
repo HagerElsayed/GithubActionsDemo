@@ -12,10 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
-     - name: Set script permissions
+
+      - name: Set script permissions
         run: chmod +x ./.github/scripts/validate-branch-name.sh
-        
+
       - name: Get branch name
         id: get_branch
         run: |
@@ -24,5 +24,6 @@ jobs:
           else
             BRANCH_NAME=${GITHUB_REF#refs/heads/}
           fi
+
       - name: Validate Branch Name
         run: ./.github/scripts/validate-branch-name.sh ${{ steps.get_branch.outputs.branch }}
