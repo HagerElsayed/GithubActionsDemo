@@ -12,7 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+        
+     - name: Set script permissions
+        run: chmod +x ./.github/scripts/validate-branch-name.sh
+        
       - name: Get branch name
         id: get_branch
         run: |
